@@ -4,19 +4,23 @@ import Axios from 'axios';
 function Login(props) {
   const [error, setError] = useState('');
   const [data, setData] = useState({
-    username: '',
-    password: ''
+    credentials: {
+      username: '',
+      password: ''
+    }
   });
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    Axios.post('/login', data)
+    Axios.post('https://localhost:5000/api/login', data.credentials)
       .then(res => {
         console.log(res.data);
+        localStorage.setItem('token', res.data.payload);
+        props.history.push('/protected');
       })
       .catch(err => {
-        setError(err.response.data.message);
+        setError(err.message);
       });
   };
 
