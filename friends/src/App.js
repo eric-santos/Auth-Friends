@@ -1,21 +1,27 @@
 import React from 'react';
 import './App.css';
 
-import Signin from './components/Signin';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
-import { Link, Route } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
+import Login from './components/Login';
+import Friends from './components/Friends';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <nav>
-          <Link to="/">Home</Link>
-        </nav>
-      </header>
-
-      <Route exact path="/signin" component={Signin} />
-    </div>
+    <Router>
+      <div className="App">
+        <ul>
+          <Link to="/login">Login</Link>
+          <Link to="protected">Protected Page</Link>
+        </ul>
+        <Switch>
+          <PrivateRoute exact path="/protected" component={Friends} />
+          <Route path="/login" component={Login} />
+          <Route component={Login} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
